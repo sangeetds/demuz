@@ -15,6 +15,4 @@ data class Question(
 //    @ColumnInfo(name = "topics") val topics: List<String>,
 //    @ColumnInfo(name = "college") val college: List<String>,
 //    @ColumnInfo(name = "trending") val trending: Boolean,
-    @ColumnInfo(name = "source") val source: Int
-
 )

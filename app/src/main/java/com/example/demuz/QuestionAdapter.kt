@@ -14,16 +14,16 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
 
     class Card(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var question: Question? = null
-        val questionName: TextView = itemView.findViewById(R.id.questionName)
+        val questionName: TextView = itemView.findViewById(R.id.questionTitle)
 
         init {
             itemView.setOnClickListener(this)
         }
-//
+
         override fun onClick(v: View) {
 
         }
-//
+
         companion object {
             private const val PHOTO_KEY = "PHOTO"
         }
@@ -33,8 +33,6 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: Card, position: Int) {
         val questionItem = questions[position]
-        val photo = holder.itemView.findViewById<ImageView>(R.id.webLogo)
-        photo.setImageResource(questionItem.source)
         holder.questionName.text = questionItem.title
 
         holder.itemView.setOnClickListener {
