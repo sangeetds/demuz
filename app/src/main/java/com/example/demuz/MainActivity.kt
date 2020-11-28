@@ -29,29 +29,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getListOfNames(): MutableList<Question> {
-        val nameList = mutableListOf<Question>()
-        nameList.add(Question("Longest Increasing Subsequence", listOf("Facebook"), "Internship", frequency = 10, topics = listOf("DP"), college = listOf("BITS"), trending = true, source = R.drawable.hr))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
-        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+    private fun getListOfNames(): List<Question> {
+        val questionDao = QuestionDataBase.getDatabase(applicationContext)!!.questionDao()
+        val questions = QuestionRepository(questionDao).allQuestions
 
-
-        return nameList
+        return questions + Question(id = 1, title = "Two sums", source = R.drawable.hr)
     }
 }
 
