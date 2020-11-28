@@ -2,53 +2,103 @@ package com.example.demuz
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter: QuestionAdapter
+    private lateinit var questionAdapter: QuestionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val questionList = getListOfNames()
-
-        linearLayoutManager = LinearLayoutManager(this)
-
         val questionView = findViewById<RecyclerView>(R.id.questionList)
         questionView.setHasFixedSize(true)
-        questionView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
 
-        adapter = QuestionAdapter(questionList)
-        questionView.adapter = adapter
+        val questionList = getListOfNames()
+        questionAdapter = QuestionAdapter(questionList)
+        questionView.adapter = questionAdapter
+
+        questionView.layoutManager = LinearLayoutManager(this)
+
+        questionAdapter.itemClickListener = { position, name ->
+            Toast.makeText(this, "position: $position - name: $name", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun getListOfNames(): MutableList<Question> {
         val nameList = mutableListOf<Question>()
-        nameList.add(Question("Ali"))
-        nameList.add(Question("Sophia"))
-        nameList.add(Question("Isabella"))
-        nameList.add(Question("Mason"))
-        nameList.add(Question("Jacob"))
-        nameList.add(Question("William"))
-        nameList.add(Question("Olivia"))
-        nameList.add(Question("Jayden"))
-        nameList.add(Question("Chloe"))
-        nameList.add(Question("Ella"))
-        nameList.add(Question("Anthony"))
-        nameList.add(Question("Joshua"))
-        nameList.add(Question("James"))
-        nameList.add(Question("Grace"))
-        nameList.add(Question("Samantha"))
-        nameList.add(Question("Nicholas"))
-        nameList.add(Question("Brianna"))
-        nameList.add(Question("Justin"))
-        nameList.add(Question("Lauren"))
-        nameList.add(Question("Kimberly"))
+        nameList.add(Question("Longest Increasing Subsequence", listOf("Facebook"), "Internship", frequency = 10, topics = listOf("DP"), college = listOf("BITS"), trending = true, source = R.drawable.hr))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+        nameList.add(Question("Two Sums", listOf("Twitter"), "Internship", frequency = 5, topics = listOf("Greedy"), college = listOf("IIT"), trending = true, source = R.drawable.lc))
+
 
         return nameList
     }
 }
+
+//class MainActivity : AppCompatActivity() {
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_main)
+//
+//        val rclNames = findViewById<RecyclerView>(R.id.questionList)
+//
+//        // If size of the all items are equal and won't change for a better performance it's better to set setHasFixedSize to true
+//        rclNames.setHasFixedSize(true)
+//
+//        // Creating an instance of our NameAdapter class and setting it to our RecyclerView
+//        val nameList =  getListOfNames()
+//        val namesAdapter = QuestionAdapter(nameList)
+//        rclNames.adapter = namesAdapter
+//        // Setting our RecyclerView's layout manager equal to LinearLayoutManager
+//        rclNames.layoutManager = LinearLayoutManager(this)
+//
+//    }
+//
+//    // This function just creates a list of names for us
+//    private fun getListOfNames(): MutableList<String> {
+//        val nameList = mutableListOf<String>()
+//        nameList.add("Ali")
+//        nameList.add("Sophia")
+//        nameList.add("Isabella")
+//        nameList.add("Mason")
+//        nameList.add("Jacob")
+//        nameList.add("William")
+//        nameList.add("Olivia")
+//        nameList.add("Jayden")
+//        nameList.add("Chloe")
+//        nameList.add("Ella")
+//        nameList.add("Anthony")
+//        nameList.add("Joshua")
+//        nameList.add("James")
+//        nameList.add("Grace")
+//        nameList.add("Samantha")
+//        nameList.add("Nicholas")
+//        nameList.add("Brianna")
+//        nameList.add("Justin")
+//        nameList.add("Lauren")
+//        nameList.add("Kimberly")
+//
+//        return nameList
+//    }
+//}

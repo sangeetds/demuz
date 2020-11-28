@@ -3,17 +3,18 @@ package com.example.demuz
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adapter<QuestionAdapter.Card>() {
 
+    var itemClickListener: ((position: Int, name: String) -> Unit)? = null
+
     class Card(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var question: Question? = null
-        private val cardBody = itemView.findViewById<LinearLayout>(R.id.questionBody)
-        val questionName: TextView = cardBody.findViewById<TextView>(R.id.questionName)
-
+        val questionName: TextView = itemView.findViewById(R.id.questionName)
 
         init {
             itemView.setOnClickListener(this)
@@ -32,7 +33,13 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: Card, position: Int) {
         val questionItem = questions[position]
+        val photo = holder.itemView.findViewById<ImageView>(R.id.webLogo)
+        photo.setImageResource(questionItem.source)
         holder.questionName.text = questionItem.title
+
+        holder.itemView.setOnClickListener {
+            itemClickListener?.invoke(position, questionItem.title)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Card {
