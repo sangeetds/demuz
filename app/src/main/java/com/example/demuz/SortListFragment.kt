@@ -1,6 +1,7 @@
 package com.example.demuz
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 /**
  * A fragment representing a list of Items.
  */
-class FilterFragment : BottomSheetDialogFragment() {
+class SortListFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,21 +22,21 @@ class FilterFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_filter, container, false)
+        val view = inflater.inflate(R.layout.fragment_sort, container, false)
 
-        val filterView = view.findViewById<RecyclerView>(R.id.filterList)
-        filterView.setHasFixedSize(true)
+        val sortView = view.findViewById<RecyclerView>(R.id.sortList)
+        sortView.setHasFixedSize(true)
 
-        val filterList = Question.filters
-        val filterListAdapter = FilterListAdapter(filterList)
-        filterView.adapter = filterListAdapter
+        val sortList = Question.sort
+        val sortListAdapter = FilterListAdapter(sortList)
+        sortView.adapter = sortListAdapter
 
-        filterView.layoutManager = LinearLayoutManager(context)
+        sortView.layoutManager = LinearLayoutManager(context)
 
         return view
     }
 
     companion object {
-        const val TAG = "ModalBottomSheetFilter"
+        const val TAG = "ModalBottomSheetSort"
     }
 }

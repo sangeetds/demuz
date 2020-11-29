@@ -1,9 +1,7 @@
 package com.example.demuz
 
-import android.R
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -11,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 
 
@@ -26,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(com.example.demuz.R.layout.activity_main)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.title = "Title";
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Title"
 
         toolbar = findViewById(com.example.demuz.R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -45,11 +42,11 @@ class MainActivity : AppCompatActivity() {
         val filterButton = findViewById<Button>(com.example.demuz.R.id.filterButton)
 
         sortButton.setOnClickListener {
-            showBottomSheetDialog()
+            showBottomSheetSortFragment()
         }
 
         filterButton.setOnClickListener {
-            showBottomSheetDialogFragment()
+            showBottomSheetFilterFragment()
         }
     }
 
@@ -92,18 +89,13 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    fun showBottomSheetDialog() {
-        val view: View = layoutInflater.inflate(
-            com.example.demuz.R.layout.fragment_filter_list,
-            null
-        )
-        val dialog = BottomSheetDialog(this)
-        dialog.setContentView(view)
-        dialog.show()
-    }
-
-    fun showBottomSheetDialogFragment() {
+    private fun showBottomSheetFilterFragment() {
         val bottomSheetFragment = FilterFragment()
         bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+    }
+
+    private fun showBottomSheetSortFragment() {
+        val sortListFragment = SortListFragment()
+        sortListFragment.show(supportFragmentManager, sortListFragment.tag)
     }
 }

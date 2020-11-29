@@ -21,5 +21,6 @@ data class Question(
 ) {
     companion object {
         val filters = listOf("Companies", "Role", "Frequency", "Topics", "College")
+        val sort = listOf("Latest", "Oldest", "Most Asked", "Least Asked")
     }
 }
