@@ -22,7 +22,7 @@
             <TextView
                 android:id="@+id/questionTitle"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
-                android:layout_width="300dp"
+                android:layout_width="275dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
@@ -34,8 +34,8 @@
             <HorizontalScrollView
                 android:id="@+id/questionBody"
                 style="@style/TextAppearance.MaterialComponents.Caption"
-                android:layout_width="370dp"
-                android:layout_height="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:paddingStart="10dp"
@@ -84,7 +84,7 @@
                 android:id="@+id/buttonFavorite"
                 android:layout_width="43dp"
                 android:layout_height="43dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="24dp"
                 android:background="@drawable/button_favorite"
                 android:checked="false"
                 android:text=""
@@ -93,7 +93,7 @@
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.048" />
+                card_view:layout_constraintVertical_bias="0.124" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

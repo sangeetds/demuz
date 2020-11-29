@@ -2,24 +2,24 @@ package com.example.demuz
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Movie
 import android.net.Uri
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import java.security.AccessController.getContext
+import java.util.*
+
 
 class QuestionAdapter(
     private val context: Context?,
     private val questions: MutableList<Question>,
 ) : RecyclerView.Adapter<QuestionAdapter.Card>(), Filterable {
 
-    private var filteredQuestions: MutableList<Question> = questions
+    var filteredQuestions: MutableList<Question> = questions
     lateinit var onComplete: (Question) -> Unit
     lateinit var onFavorite: (Question) -> Unit
 
@@ -34,10 +34,6 @@ class QuestionAdapter(
         override fun onClick(v: View?) {
 
         }
-    }
-
-    fun changeContent() {
-
     }
 
     override fun getItemCount() = this.filteredQuestions.size
@@ -108,16 +104,16 @@ class QuestionAdapter(
         return object : Filter() {
 
             override fun performFiltering(constraint: CharSequence): FilterResults? {
-                val charString = constraint.toString()
+                val charString: String = constraint.toString()
 
-                filteredQuestions = if (charString.isEmpty()) {
-                    questions
-                } else {
-                    questions.filter { it.title.contains(constraint, true) }.toMutableList()
-                }
+                filteredQuestions = if (charString.isEmpty()) questions
+                    else questions
+                            .filter { it.title.contains(constraint, true) }
+                            .toMutableList()
 
                 val filterResults = FilterResults()
                 filterResults.values = filteredQuestions
+
                 return filterResults
             }
 
