@@ -3,23 +3,29 @@ package com.example.demuz
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import java.security.AccessController.getContext
 
 class QuestionAdapter(
     private val context: Context?,
     private val questions: MutableList<Question>,
-    val TAG: String,
 ) : RecyclerView.Adapter<QuestionAdapter.Card>(), Filterable {
 
     private var filteredQuestions: MutableList<Question> = questions
+    lateinit var onComplete: (Question) -> Unit
+    lateinit var onFavorite: (Question) -> Unit
 
     inner class Card(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val questionName: TextView = itemView.findViewById(R.id.questionTitle)
-        val tag: TextView = itemView.findViewById(R.id.questionBody)
+        val tag: ChipGroup = itemView.findViewById(R.id.tag)
 
         init {
             itemView.setOnClickListener(this)
@@ -28,6 +34,10 @@ class QuestionAdapter(
         override fun onClick(v: View?) {
 
         }
+    }
+
+    fun changeContent() {
+
     }
 
     override fun getItemCount() = this.filteredQuestions.size
@@ -39,7 +49,14 @@ class QuestionAdapter(
         val tags = mutableListOf<String>()
         questionItem.addTags(tags)
 
-        holder.tag.text = "TAGS: ${tags.joinToString(" ")}"
+        tags.forEach {
+            val chip = Chip(holder.tag.context)
+            chip.text = it
+
+            chip.isClickable = true
+            chip.height = 40
+            holder.tag.addView(chip)
+        }
 
         holder.itemView.setOnClickListener {
             val detailIntent = Intent(context, QuestionDetailActivity::class.java)
@@ -62,12 +79,14 @@ class QuestionAdapter(
         doneButton.setOnClickListener {
             questionItem.completed = true
             removeItem(holder)
+            onComplete(questionItem)
             notifyDataSetChanged()
         }
 
         favoriteButton.isChecked = questionItem.favorite
         favoriteButton.setOnClickListener {
             questionItem.favorite = !questionItem.favorite
+            onFavorite(questionItem)
             notifyDataSetChanged()
         }
     }

@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [Question::class], version = 1, exportSchema = false)
 abstract class QuestionDataBase : RoomDatabase() {
 
-    abstract public fun questionDao(): QuestionDao
+    abstract fun questionDao(): QuestionDao
 
     companion object {
         @Volatile private var instance: QuestionDataBase? = null

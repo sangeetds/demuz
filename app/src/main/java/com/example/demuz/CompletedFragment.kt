@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +23,7 @@ class CompletedFragment : Fragment() {
         questionView.setHasFixedSize(true)
 
         val questionList = getListOfNames(context)
-        questionAdapter = QuestionAdapter(context, questionList.toMutableList(), TAG)
+        questionAdapter = QuestionAdapter(context, questionList.toMutableList())
         questionView.adapter = questionAdapter
 
         questionView.layoutManager = LinearLayoutManager(context)

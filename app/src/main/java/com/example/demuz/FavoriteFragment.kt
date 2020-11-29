@@ -4,36 +4,50 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_question_detail.*
 
 class FavoriteFragment : Fragment() {
+
     lateinit var questionAdapter: QuestionAdapter
     private var searchView: SearchView? = null
+    private lateinit var questionDataBase: QuestionDataBase
+    private lateinit var repository: QuestionRepository
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        questionDataBase = QuestionDataBase.getDatabase(context!!)!!
+        repository = QuestionRepository(questionDataBase.questionDao())
+
         val rootView = inflater.inflate(R.layout.fragment_uncompleted, container, false)
         val questionView = rootView.findViewById<RecyclerView>(R.id.questionList)
         questionView.setHasFixedSize(true)
 
-        val questionList = getListOfNames(context)
-        questionAdapter = QuestionAdapter(context, questionList.toMutableList(), TAG)
+        val questionList = getListOfNames()
+        questionAdapter = QuestionAdapter(context, questionList.toMutableList())
         questionView.adapter = questionAdapter
 
         questionView.layoutManager = LinearLayoutManager(context)
 
+        questionAdapter.onFavorite = {
+            val question = it
+            question.favorite = false
+            repository.removeQuestion(it)
+            repository.addQuestion(question)
+        }
+
         return rootView
     }
 
-    private fun getListOfNames(context: Context?): List<Question> {
-        val questionDao = QuestionDataBase.getDatabase(context!!)!!.questionDao()
-
-        return QuestionRepository(questionDao).favoriteQuestions
+    private fun getListOfNames(): List<Question> {
+        return repository.favoriteQuestions
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

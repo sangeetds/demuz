@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewPager(viewPager: ViewPager) {
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(UncompletedFragment(), "Uncompleted")
+        adapter.addFragment(UncompletedFragment(), "Uncomplete")
         adapter.addFragment(CompletedFragment(), "Completed")
         adapter.addFragment(FavoriteFragment(), "Favorite")
         viewPager.adapter = adapter
