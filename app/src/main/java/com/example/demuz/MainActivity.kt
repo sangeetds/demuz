@@ -1,11 +1,9 @@
 package com.example.demuz
 
 import android.app.SearchManager
-import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -19,8 +17,6 @@ class MainActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
-    private var searchView: SearchView? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,26 +73,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
-
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView!!.setSearchableInfo(
-            searchManager.getSearchableInfo(componentName)
-        )
-        searchView!!.maxWidth = Int.MAX_VALUE
-
-        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-//                TODO(Search)
-                return false
-            }
-
-            override fun onQueryTextChange(query: String?): Boolean {
-//                TODO(Search)
-                return false
-            }
-        })
-
         return true
     }
 }

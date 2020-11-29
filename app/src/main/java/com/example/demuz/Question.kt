@@ -9,6 +9,9 @@ data class Question(
 
     @PrimaryKey val id: Int,
     @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "completed") val completed: Boolean = false,
+    @ColumnInfo(name = "favorite") val favorite: Boolean = false,
+
 //    @ColumnInfo(name = "companies") val companies: List<String>,
 //    @ColumnInfo(name = "role") val role: String,
 //    @ColumnInfo(name = "frequency") val frequency: Int,

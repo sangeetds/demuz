@@ -1,11 +1,11 @@
 package com.example.demuz
 
+import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -25,6 +25,7 @@ class FavoriteFragment : Fragment() {
     private var param2: String? = null
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var questionAdapter: QuestionAdapter
+    private var searchView: SearchView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +55,7 @@ class FavoriteFragment : Fragment() {
 
     private fun getListOfNames(context: Context?): List<Question> {
         val questionDao = QuestionDataBase.getDatabase(context!!)!!.questionDao()
-        val questions = QuestionRepository(questionDao).allQuestions
+        val questions = QuestionRepository(questionDao).favoriteQuestions
 
         return questions +
                 listOf(Question(id = 1, title = "Two sums"),
@@ -81,6 +82,30 @@ class FavoriteFragment : Fragment() {
                     Question(id = 3, title = "wreafsgdfgdgd"),
                     Question(id = 4, title = "adrgrdgdfg"),
                     Question(id = 5, title = "waht now"))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+
+        val activity = activity!!
+        val searchManager = activity.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        searchView!!.setSearchableInfo(
+            searchManager.getSearchableInfo(activity.componentName)
+        )
+        searchView!!.maxWidth = Int.MAX_VALUE
+
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                questionAdapter.filter.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                questionAdapter.filter.filter(query)
+                return false
+            }
+        })
     }
 
     companion object {
