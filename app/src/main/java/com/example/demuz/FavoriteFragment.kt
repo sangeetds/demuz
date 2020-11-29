@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class FavoriteFragment : Fragment() {
-    private lateinit var questionAdapter: QuestionAdapter
+    lateinit var questionAdapter: QuestionAdapter
     private var searchView: SearchView? = null
 
     override fun onCreateView(
@@ -22,7 +22,7 @@ class FavoriteFragment : Fragment() {
         questionView.setHasFixedSize(true)
 
         val questionList = getListOfNames(context)
-        questionAdapter = QuestionAdapter(context, questionList.toMutableList())
+        questionAdapter = QuestionAdapter(context, questionList.toMutableList(), TAG)
         questionView.adapter = questionAdapter
 
         questionView.layoutManager = LinearLayoutManager(context)
@@ -58,5 +58,9 @@ class FavoriteFragment : Fragment() {
                 return false
             }
         })
+    }
+
+    companion object {
+        const val TAG = "Favorite"
     }
 }

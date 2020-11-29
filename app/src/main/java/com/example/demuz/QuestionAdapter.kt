@@ -2,23 +2,28 @@ package com.example.demuz
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
+import android.icu.text.DateTimePatternGenerator
 import android.net.Uri
-import android.transition.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.TextView
+import android.widget.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class QuestionAdapter(private val context: Context?, private val questions: MutableList<Question>) : RecyclerView.Adapter<QuestionAdapter.Card>(), Filterable {
+class QuestionAdapter(
+    private val context: Context?,
+    private val questions: MutableList<Question>,
+    val TAG: String,
+) : RecyclerView.Adapter<QuestionAdapter.Card>(), Filterable {
 
-    private var filteredQuestions: List<Question> = questions
+    private var filteredQuestions: MutableList<Question> = questions
 
     inner class Card(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val questionName: TextView = itemView.findViewById(R.id.questionTitle)
+        val tag: TextView = itemView.findViewById(R.id.questionBody)
 
         init {
             itemView.setOnClickListener(this)
@@ -35,6 +40,11 @@ class QuestionAdapter(private val context: Context?, private val questions: Muta
         val questionItem = filteredQuestions[position]
         holder.questionName.text = questionItem.title
 
+        val tags = mutableListOf<String>()
+        questionItem.addTags(tags)
+
+        holder.tag.text = "TAGS: ${tags.joinToString(" ")}"
+
         holder.itemView.setOnClickListener {
             val detailIntent = Intent(context, QuestionDetailActivity::class.java)
             detailIntent.putExtra("Properties", questionItem)
@@ -43,7 +53,7 @@ class QuestionAdapter(private val context: Context?, private val questions: Muta
 
         val codingButton = holder.itemView.findViewById<Button>(R.id.code)
         val doneButton = holder.itemView.findViewById<Button>(R.id.done)
-        val favoriteButton = holder.itemView.findViewById<Button>(R.id.buttonFavorite)
+        val favoriteButton = holder.itemView.findViewById<ToggleButton>(R.id.buttonFavorite)
 
         codingButton.setOnClickListener {
             val uri: Uri =
@@ -56,16 +66,19 @@ class QuestionAdapter(private val context: Context?, private val questions: Muta
         doneButton.setOnClickListener {
             questionItem.completed = true
             removeItem(holder)
+            notifyDataSetChanged()
         }
 
+        favoriteButton.isChecked = questionItem.favorite
         favoriteButton.setOnClickListener {
-            questionItem.favorite = true
+            questionItem.favorite = !questionItem.favorite
+            notifyDataSetChanged()
         }
     }
 
     private fun removeItem(holder: Card) {
         val actualPosition: Int = holder.adapterPosition
-        questions.removeAt(actualPosition)
+        filteredQuestions.removeAt(actualPosition)
         notifyItemRemoved(actualPosition)
         notifyItemRangeChanged(actualPosition, questions.size)
     }
@@ -85,7 +98,7 @@ class QuestionAdapter(private val context: Context?, private val questions: Muta
                 filteredQuestions = if (charString.isEmpty()) {
                     questions
                 } else {
-                    questions.filter { it.title.contains(constraint, true) }
+                    questions.filter { it.title.contains(constraint, true) }.toMutableList()
                 }
 
                 val filterResults = FilterResults()
@@ -94,10 +107,22 @@ class QuestionAdapter(private val context: Context?, private val questions: Muta
             }
 
             override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults) {
-                filteredQuestions = filterResults.values as List<Question>
+                filteredQuestions = filterResults.values as MutableList<Question>
                 notifyDataSetChanged()
             }
         }
     }
+
+    private fun Question.addTags(tags: MutableList<String>) {
+        tags.addAll(this.college.split(","))
+        tags.addAll(this.companies.split(","))
+        tags.addAll(this.topics.split(","))
+        tags.add(this.role)
+        tags.add(this.difficulty)
+        tags.add(this.acceptance_rate.toString())
+        tags.add(this.frequency.toString())
+    }
 }
+
+
 

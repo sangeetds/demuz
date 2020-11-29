@@ -48,8 +48,8 @@
 
             <ScrollView
                 android:id="@+id/scrollView3"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_width="389dp"
+                android:layout_height="300dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:text="@string/hello">
+                    >
 
                 </TextView>
 
@@ -73,24 +73,29 @@
                 android:id="@+id/startCoding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/start_coding"
                 android:backgroundTint="#FFF"
+                android:text="@string/start_coding"
                 android:textColor="#000"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shareQuestion" />
 
             <Button
                 android:id="@id/shareQuestion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="#FFF"
                 android:text="Share with your friends"
                 android:textColor="#000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

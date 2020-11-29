@@ -1,9 +1,13 @@
 package com.example.demuz
 
+import android.R
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -18,6 +22,10 @@ class MainActivity : AppCompatActivity() {
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
     private var currentFragment: Fragment? = null
+
+    init {
+        instance = this
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +94,56 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(com.example.demuz.R.menu.menu, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu.findItem(com.example.demuz.R.id.action_search)
+            .actionView as SearchView
+        searchView.setSearchableInfo(
+            searchManager
+                .getSearchableInfo(componentName)
+        )
+        searchView.maxWidth = Int.MAX_VALUE
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                when(currentFragment!!::class.java) {
+                    CompletedFragment::class.java -> {
+                        val frag = currentFragment as CompletedFragment
+                        frag.questionAdapter.filter.filter(query)
+                    }
+                    UncompletedFragment::class.java -> {
+                        val frag = currentFragment as UncompletedFragment
+                        frag.questionAdapter.filter.filter(query)
+                    }
+                    FavoriteFragment::class.java -> {
+                        val frag = currentFragment as FavoriteFragment
+                        frag.questionAdapter.filter.filter(query)
+                    }
+                }
+
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+                when(currentFragment!!::class.java) {
+                    CompletedFragment::class.java -> {
+                        val frag = currentFragment as CompletedFragment
+                        frag.questionAdapter.filter.filter(query)
+                    }
+                    UncompletedFragment::class.java -> {
+                        val frag = currentFragment as UncompletedFragment
+                        frag.questionAdapter.filter.filter(query)
+                    }
+                    FavoriteFragment::class.java -> {
+                        val frag = currentFragment as FavoriteFragment
+                        frag.questionAdapter.filter.filter(query)
+                    }
+                }
+
+                return false
+            }
+        })
+
         return true
     }
 
@@ -97,5 +155,22 @@ class MainActivity : AppCompatActivity() {
     private fun showBottomSheetSortFragment() {
         val sortListFragment = SortListFragment()
         sortListFragment.show(supportFragmentManager, sortListFragment.tag)
+    }
+
+    companion object {
+
+        private var instance: MainActivity? = null
+
+        fun getQuestions() : List<Question> =
+            QuestionRepository(QuestionDataBase.getDatabase(instance!!.applicationContext!!)!!.questionDao()).allQuestions
+
+
+        fun getAllCompanies(): List<String> = getQuestions().map { it.companies }
+
+        fun getAllRole(): List<String> = getQuestions().map { it.role }
+
+        fun getAllTopics(): List<String> = getQuestions().map { it.topics }
+
+        fun getAllColleges(): List<String> = getQuestions().map { it.college }
     }
 }
