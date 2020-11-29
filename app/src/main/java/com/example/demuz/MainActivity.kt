@@ -1,14 +1,15 @@
 package com.example.demuz
 
-import android.R
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
-import android.view.View
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
@@ -18,12 +19,15 @@ class MainActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
-    private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var questionAdapter: QuestionAdapter
+    private var searchView: SearchView? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.demuz.R.layout.activity_main)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.title = "Title";
 
         toolbar = findViewById(com.example.demuz.R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,48 +75,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//        val questionView = findViewById<RecyclerView>(R.id.questionList)
-//        questionView.setHasFixedSize(true)
-//
-//        val questionList = getListOfNames()
-//        questionAdapter = QuestionAdapter(questionList)
-//        questionView.adapter = questionAdapter
-//
-//        questionView.layoutManager = LinearLayoutManager(this)
-//
-//        questionAdapter.itemClickListener = { position, name ->
-//            Toast.makeText(this, "position: $position - name: $name", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//
-//    private fun getListOfNames(): List<Question> {
-//        val questionDao = QuestionDataBase.getDatabase(applicationContext)!!.questionDao()
-//        val questions = QuestionRepository(questionDao).allQuestions
-//
-//        return questions +
-//                listOf(Question(id = 1, title = "Two sums"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 2, title = "Make new"),
-//                Question(id = 3, title = "wreafsgdfgdgd"),
-//                Question(id = 4, title = "adrgrdgdfg"),
-//                Question(id = 5, title = "waht now"))
-//    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        searchView!!.setSearchableInfo(
+            searchManager.getSearchableInfo(componentName)
+        )
+        searchView!!.maxWidth = Int.MAX_VALUE
+
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+//                TODO(Search)
+                return false
+            }
+
+            override fun onQueryTextChange(query: String?): Boolean {
+//                TODO(Search)
+                return false
+            }
+        })
+
+        return true
+    }
 }

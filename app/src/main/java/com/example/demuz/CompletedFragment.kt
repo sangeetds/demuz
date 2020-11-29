@@ -1,10 +1,13 @@
 package com.example.demuz
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,6 +23,8 @@ class CompletedFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var questionAdapter: QuestionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +39,48 @@ class CompletedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_completed, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_uncompleted, container, false)
+        val questionView = rootView.findViewById<RecyclerView>(R.id.questionList)
+        questionView.setHasFixedSize(true)
+
+        val questionList = getListOfNames(context)
+        questionAdapter = QuestionAdapter(questionList)
+        questionView.adapter = questionAdapter
+
+        questionView.layoutManager = LinearLayoutManager(context)
+
+        return rootView
+    }
+
+    private fun getListOfNames(context: Context?): List<Question> {
+        val questionDao = QuestionDataBase.getDatabase(context!!)!!.questionDao()
+        val questions = QuestionRepository(questionDao).allQuestions
+
+        return questions +
+                listOf(Question(id = 1, title = "Two sums"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 2, title = "Make new"),
+                    Question(id = 3, title = "wreafsgdfgdgd"),
+                    Question(id = 4, title = "adrgrdgdfg"),
+                    Question(id = 5, title = "waht now"))
     }
 
     companion object {
