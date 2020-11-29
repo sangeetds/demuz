@@ -16,11 +16,14 @@ abstract class QuestionDataBase : RoomDatabase() {
         @Synchronized
         fun getDatabase(context: Context): QuestionDataBase? {
             if (instance == null) {
+                context.applicationContext.deleteDatabase("question_list");
                 instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    QuestionDataBase::class.java,
-                    "question_list")
+                        context.applicationContext,
+                        QuestionDataBase::class.java,
+                        "question_list")
+                    .createFromAsset("database/question_list.db")
                     .allowMainThreadQueries()
+                    .fallbackToDestructiveMigration()
                     .build()
             }
 
