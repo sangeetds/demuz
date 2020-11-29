@@ -1,6 +1,5 @@
 package com.example.demuz
 
-import android.R
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
