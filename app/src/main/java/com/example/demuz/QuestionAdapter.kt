@@ -15,7 +15,7 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
     var itemClickListener: ((position: Int, name: String) -> Unit)? = null
     private var filteredQuestions: List<Question> = questions
 
-    class Card(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class Card(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var question: Question? = null
         val questionName: TextView = itemView.findViewById(R.id.questionTitle)
 
@@ -25,10 +25,6 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
 
         override fun onClick(v: View) {
 
-        }
-
-        companion object {
-            private const val PHOTO_KEY = "PHOTO"
         }
     }
 
@@ -72,3 +68,4 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
         }
     }
 }
+

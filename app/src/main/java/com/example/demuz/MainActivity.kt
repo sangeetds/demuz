@@ -1,14 +1,17 @@
 package com.example.demuz
 
-import android.app.SearchManager
+import android.R
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 
 
@@ -17,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private var toolbar: Toolbar? = null
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
+    private var currentFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,17 +29,28 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.title = "Title";
 
-        toolbar = findViewById(com.example.demuz.R.id.toolbar);
-        setSupportActionBar(toolbar);
+        toolbar = findViewById(com.example.demuz.R.id.toolbar)
+        setSupportActionBar(toolbar)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewPager = findViewById(com.example.demuz.R.id.viewpager);
+        viewPager = findViewById(com.example.demuz.R.id.viewpager)
         setupViewPager(viewPager!!)
 
-        tabLayout = findViewById(com.example.demuz.R.id.tabs);
+        tabLayout = findViewById(com.example.demuz.R.id.tabs)
 
-        tabLayout!!.setupWithViewPager(viewPager);
+        tabLayout!!.setupWithViewPager(viewPager)
+
+        val sortButton = findViewById<Button>(com.example.demuz.R.id.sortButton)
+        val filterButton = findViewById<Button>(com.example.demuz.R.id.filterButton)
+
+        sortButton.setOnClickListener {
+            showBottomSheetDialog()
+        }
+
+        filterButton.setOnClickListener {
+            showBottomSheetDialogFragment()
+        }
     }
 
     private fun setupViewPager(viewPager: ViewPager) {
@@ -46,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = adapter
     }
 
-    class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(
+    inner class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(
         manager,
         BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
     ) {
@@ -54,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         private val mFragmentTitleList: MutableList<String> = ArrayList()
 
         override fun getItem(position: Int): Fragment {
+            currentFragment = mFragmentList[position]
             return mFragmentList[position]
         }
 
@@ -72,7 +88,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
+        menuInflater.inflate(com.example.demuz.R.menu.menu, menu)
         return true
+    }
+
+    fun showBottomSheetDialog() {
+        val view: View = layoutInflater.inflate(
+            com.example.demuz.R.layout.fragment_filter_list,
+            null
+        )
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(view)
+        dialog.show()
+    }
+
+    fun showBottomSheetDialogFragment() {
+        val bottomSheetFragment = FilterFragment()
+        bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
     }
 }
