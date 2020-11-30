@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -52,6 +53,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun getListOfNames() = questionRepository.allQuestions
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
 
@@ -86,15 +98,45 @@ class MainActivity : AppCompatActivity() {
         bottomSheetFragment.onSubmit = { list, name ->
             println("$list $name")
             val newQuestionList: List<Question> = when (name) {
-                COLLEGE -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterCollege(item)); acc }.toMutableList()
-                COMPANY -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterCompany(item)); acc }.toMutableList()
-                TOPICS -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterTopics(item)); acc }.toMutableList()
-                ROLE -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterRole(item)); acc }.toMutableList()
-                DIFFICULTY -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterDifficulty(item)); acc }.toMutableList()
+                COLLEGE -> list.fold(mutableSetOf<Question>()) { acc, item ->
+                    acc.addAll(
+                        questionRepository.filterCollege(
+                            item
+                        )
+                    ); acc
+                }.toMutableList()
+                COMPANY -> list.fold(mutableSetOf<Question>()) { acc, item ->
+                    acc.addAll(
+                        questionRepository.filterCompany(
+                            item
+                        )
+                    ); acc
+                }.toMutableList()
+                TOPICS -> list.fold(mutableSetOf<Question>()) { acc, item ->
+                    acc.addAll(
+                        questionRepository.filterTopics(
+                            item
+                        )
+                    ); acc
+                }.toMutableList()
+                ROLE -> list.fold(mutableSetOf<Question>()) { acc, item ->
+                    acc.addAll(
+                        questionRepository.filterRole(
+                            item
+                        )
+                    ); acc
+                }.toMutableList()
+                DIFFICULTY -> list.fold(mutableSetOf<Question>()) { acc, item ->
+                    acc.addAll(
+                        questionRepository.filterDifficulty(
+                            item
+                        )
+                    ); acc
+                }.toMutableList()
                 FAVORITE -> questionRepository.favoriteQuestions.toMutableList()
                 COMPLETED -> if (list.size == 1 && list.first() == "Completed") questionRepository.completedQuestions
-                        else if (list.size == 1 && list.first() == "Not Started") questionRepository.uncompletedQuestions
-                        else questionRepository.uncompletedQuestions + questionRepository.completedQuestions
+                else if (list.size == 1 && list.first() == "Not Started") questionRepository.uncompletedQuestions
+                else questionRepository.uncompletedQuestions + questionRepository.completedQuestions
                 else -> questionRepository.allQuestions
             }
 
