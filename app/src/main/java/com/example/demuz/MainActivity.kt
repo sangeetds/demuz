@@ -116,27 +116,32 @@ class MainActivity : AppCompatActivity() {
 
 
         fun getAllCompanies(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
-            acc.addAll(question.companies.trim().split(","))
+            acc.addAll(question.companies.split(","))
+            acc.forEach { it.trim() }
             acc
         }.toList()
 
         fun getAllRole(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
-            acc.addAll(question.role.trim().split(","))
+            acc.addAll(question.role.split(","))
+            acc.forEach { it.trim() }
             acc
         }.toList()
 
         fun getAllTopics(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
-            acc.addAll(question.topics.trim().split(","))
+            acc.addAll(question.topics.split(","))
+            acc.forEach { it.trim() }
             acc
         }.toList()
 
         fun getAllColleges(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
-            acc.addAll(question.college.trim().split(","))
+            acc.addAll(question.college.split(","))
+            acc.forEach { it.trim() }
             acc
         }.toList()
 
         fun getAllDifficulty(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
-            acc.addAll(question.difficulty.trim().split(","))
+            acc.addAll(question.difficulty.split(","))
+            acc.forEach { it.trim() }
             acc
         }.toList()
 
