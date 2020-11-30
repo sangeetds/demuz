@@ -20,8 +20,6 @@ class QuestionAdapter(
 ) : RecyclerView.Adapter<QuestionAdapter.Card>(), Filterable {
 
     var filteredQuestions: MutableList<Question> = questions
-    lateinit var onComplete: (Question) -> Unit
-    lateinit var onFavorite: (Question) -> Unit
 
     inner class Card(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val questionName: TextView = itemView.findViewById(R.id.questionTitle)
@@ -48,7 +46,6 @@ class QuestionAdapter(
         tags.forEach {
             val chip = Chip(holder.tag.context)
             chip.text = it
-
             chip.isClickable = true
             chip.height = 40
             holder.tag.addView(chip)
@@ -61,7 +58,6 @@ class QuestionAdapter(
         }
 
         val codingButton = holder.itemView.findViewById<Button>(R.id.code)
-        val doneButton = holder.itemView.findViewById<Button>(R.id.done)
         val favoriteButton = holder.itemView.findViewById<ToggleButton>(R.id.buttonFavorite)
 
         codingButton.setOnClickListener {
@@ -71,18 +67,9 @@ class QuestionAdapter(
             context!!.startActivity(intent)
         }
 
-        doneButton.visibility = if (questionItem.completed) View.GONE else View.VISIBLE
-        doneButton.setOnClickListener {
-            questionItem.completed = true
-            removeItem(holder)
-            onComplete(questionItem)
-            notifyDataSetChanged()
-        }
-
         favoriteButton.isChecked = questionItem.favorite
         favoriteButton.setOnClickListener {
             questionItem.favorite = !questionItem.favorite
-            onFavorite(questionItem)
             notifyDataSetChanged()
         }
     }
@@ -130,7 +117,6 @@ class QuestionAdapter(
         tags.addAll(this.topics.split(","))
         tags.add(this.role)
         tags.add(this.difficulty)
-        tags.add(this.acceptance_rate.toString())
         tags.add(this.frequency.toString())
     }
 }

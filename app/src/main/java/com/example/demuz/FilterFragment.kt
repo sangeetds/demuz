@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class FilterFragment : BottomSheetDialogFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    lateinit var filterAdapter: FilterAdapter
+    lateinit var onSubmit : (MutableList<String>, Filters) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,10 +24,24 @@ class FilterFragment : BottomSheetDialogFragment() {
         filterView.setHasFixedSize(true)
 
         val filterList = Question.filters
-        val filterListAdapter = FilterListAdapter(filterList)
-        filterView.adapter = filterListAdapter
+        filterAdapter = FilterAdapter(filterList)
+        filterView.adapter = filterAdapter
 
         filterView.layoutManager = LinearLayoutManager(context)
+
+        filterAdapter.startFrag = { fragment: BottomSheetDialogFragment ->
+            fragment.show(fragmentManager!!, "")
+            (fragment as FilterChipsFragment).onSubmit = { list, name ->
+                onSubmit(list, name)
+                dismiss()
+            }
+        }
+
+        val resetButton = view.findViewById<Button>(R.id.resetButton)
+        resetButton.setOnClickListener {
+            onSubmit(mutableListOf(), Filters.EMPTY)
+            dismiss()
+        }
 
         return view
     }

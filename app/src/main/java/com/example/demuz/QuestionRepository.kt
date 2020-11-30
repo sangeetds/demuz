@@ -8,5 +8,13 @@ class QuestionRepository(private val questionDao: QuestionDao) {
 
     fun removeQuestion(question: Question) = questionDao.removeQuestion(question)
 
-    fun addQuestion(question: Question) = questionDao.addQuestion(question)
+    fun filterCollege(colleges: String) = questionDao.filterCollege(colleges)
+
+    fun filterCompany(companies: String) = questionDao.filterCompanies(companies)
+
+    fun filterRole(roles: String) = questionDao.filterRole(roles)
+
+    fun filterTopics(topics: String) = questionDao.filterTopics(topics)
+
+    fun filterDifficulty(difficulties: String) = questionDao.filterDifficulty(difficulties)
 }

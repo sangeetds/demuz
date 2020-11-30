@@ -2,9 +2,11 @@ package com.example.demuz
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.recyclerview.widget.DiffUtil
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.demuz.Filters.*
 
 @Entity(tableName = "question_list")
 data class Question (
@@ -66,8 +68,7 @@ data class Question (
 
     companion object CREATOR : Parcelable.Creator<Question> {
 
-        val filters = listOf("Companies", "Role", "Frequency", "Topics", "College")
-        val sort = listOf("Latest", "Oldest", "Most Asked", "Least Asked")
+        val filters = listOf(COLLEGE, COMPANY, TOPICS, ROLE, DIFFICULTY, COMPLETED, FAVORITE)
 
         override fun createFromParcel(parcel: Parcel): Question {
             return Question(parcel)

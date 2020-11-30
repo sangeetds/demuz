@@ -65,26 +65,11 @@
                 card_view:layout_constraintStart_toStartOf="@+id/questionBody"
                 card_view:layout_constraintTop_toBottomOf="@+id/questionBody" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/done"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="@string/done"
-                android:textAppearance="
-            @style/TextAppearance.MaterialComponents.Headline6"
-                android:textSize="15sp"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintHorizontal_bias="0.004"
-                card_view:layout_constraintStart_toEndOf="@+id/code" />
-
             <ToggleButton
                 android:id="@+id/buttonFavorite"
                 android:layout_width="43dp"
                 android:layout_height="43dp"
-                android:layout_marginEnd="24dp"
+                android:layout_marginEnd="28dp"
                 android:background="@drawable/button_favorite"
                 android:checked="false"
                 android:text=""
@@ -93,7 +78,7 @@
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.124" />
+                card_view:layout_constraintVertical_bias="0.054" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

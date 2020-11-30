@@ -8,10 +8,10 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.example.demuz.Filters.*
 import com.google.android.material.tabs.TabLayout
 
 
@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private var viewPager: ViewPager? = null
     lateinit var questionAdapter: QuestionAdapter
     private var searchView: SearchView? = null
+    private lateinit var questionDao: QuestionDao
 
     init {
         instance = this
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.demuz.R.layout.activity_main)
+        questionDao = QuestionDataBase.getDatabase(this)!!.questionDao()
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Title"
@@ -39,13 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val sortButton = findViewById<Button>(com.example.demuz.R.id.sortButton)
         val filterButton = findViewById<Button>(com.example.demuz.R.id.filterButton)
-
-        sortButton.setOnClickListener {
-            showBottomSheetSortFragment()
-        }
-
         filterButton.setOnClickListener {
             showBottomSheetFilterFragment()
         }
@@ -53,18 +49,13 @@ class MainActivity : AppCompatActivity() {
         val questionView = findViewById<RecyclerView>(R.id.questionList)
         questionView.setHasFixedSize(true)
 
-        val questionList = getListOfNames(this)
+        val questionList = getListOfNames()
         questionAdapter = QuestionAdapter(this, questionList.toMutableList())
         questionView.adapter = questionAdapter
-        questionView.itemAnimator = DefaultItemAnimator()
         questionView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun getListOfNames(context: Context?): List<Question> {
-        val questionDao = QuestionDataBase.getDatabase(context!!)!!.questionDao()
-
-        return QuestionRepository(questionDao).allQuestions
-    }
+    private fun getListOfNames() = QuestionRepository(questionDao).allQuestions
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
@@ -96,29 +87,66 @@ class MainActivity : AppCompatActivity() {
     private fun showBottomSheetFilterFragment() {
         val bottomSheetFragment = FilterFragment()
         bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
-    }
 
-    private fun showBottomSheetSortFragment() {
-        val sortListFragment = SortListFragment()
-        sortListFragment.show(supportFragmentManager, sortListFragment.tag)
+        bottomSheetFragment.onSubmit = { list, name ->
+            println("$list $name")
+            val newQuestionList: List<Question> = when (name) {
+                COLLEGE -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterCollege(item)); acc }.toMutableList()
+                COMPANY -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterCompanies(item)); acc }.toMutableList()
+                TOPICS -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterTopics(item)); acc }.toMutableList()
+                ROLE -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterRole(item)); acc }.toMutableList()
+                DIFFICULTY -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterDifficulty(item)); acc }.toMutableList()
+                FAVORITE -> questionDao.getFavoriteQuestions(true).toMutableList()
+                COMPLETED -> if (list.size == 1 && list.first() == "Completed") questionDao.getCompletedQuestions(true)
+                        else if (list.size == 1 && list.first() == "Not Started") questionDao.getCompletedQuestions(false)
+                        else questionDao.getCompletedQuestions(true) + questionDao.getCompletedQuestions(false)
+                else -> questionDao.getAllQuestions()
+            }
+
+            println(newQuestionList)
+
+            questionAdapter.filteredQuestions = newQuestionList.toMutableList()
+            questionAdapter.notifyDataSetChanged()
+        }
     }
 
     companion object {
 
         private var instance: MainActivity? = null
 
-        fun getQuestions() : List<Question> =
+        private fun getQuestions() : List<Question> =
             QuestionRepository(
                 QuestionDataBase.getDatabase(instance!!.applicationContext!!)!!.questionDao()
             ).allQuestions
 
 
-        fun getAllCompanies(): List<String> = getQuestions().map { it.companies }
+        fun getAllCompanies(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
+            acc.addAll(question.companies.trim().split(","))
+            acc
+        }.toList()
 
-        fun getAllRole(): List<String> = getQuestions().map { it.role }
+        fun getAllRole(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
+            acc.addAll(question.role.trim().split(","))
+            acc
+        }.toList()
 
-        fun getAllTopics(): List<String> = getQuestions().map { it.topics }
+        fun getAllTopics(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
+            acc.addAll(question.topics.trim().split(","))
+            acc
+        }.toList()
 
-        fun getAllColleges(): List<String> = getQuestions().map { it.college }
+        fun getAllColleges(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
+            acc.addAll(question.college.trim().split(","))
+            acc
+        }.toList()
+
+        fun getAllDifficulty(): List<String> = getQuestions().fold(mutableSetOf<String>()) { acc, question ->
+            acc.addAll(question.difficulty.trim().split(","))
+            acc
+        }.toList()
+
+        fun getFavorites(): List<String> = listOf("Favorite")
+
+        fun getCompleted(): List<String> = listOf("Completed", "Not Started")
     }
 }
