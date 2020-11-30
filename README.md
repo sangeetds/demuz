@@ -3,5 +3,12 @@ You can download and install this file to run on your android device: https://dr
 
 # Screenshots
 
-![alt opening screen](https://github.com/sangeetds/demuz/blob/master/Images/Screenshot%202020-11-29%20at%2022.49.02.png) 
-![alt question screen](https://github.com/sangeetds/demuz/blob/master/Images/Screenshot%202020-11-29%20at%2022.49.17.png)
+Interact with the cards, press on a card/question to open more detail about it. Press on start coding to attempt it on the browser. 
+![alt opening screen](https://github.com/sangeetds/demuz/blob/master/Images/Main_Screen.png) 
+
+Choose by different filters by pressing the filter button. Tap on a category and choose from different †ags.
+![alt filter screen](https://github.com/sangeetds/demuz/blob/master/Images/Filter.png)
+
+Open the screen and read instruction about it.
+![alt coding screen](https://github.com/sangeetds/demuz/blob/master/Images/Coding_Question.png)
+
