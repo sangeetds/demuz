@@ -2,7 +2,6 @@ package com.example.demuz
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Movie
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import java.util.*
 
 
 class QuestionAdapter(
@@ -72,13 +70,6 @@ class QuestionAdapter(
             questionItem.favorite = !questionItem.favorite
             notifyDataSetChanged()
         }
-    }
-
-    private fun removeItem(holder: Card) {
-        val actualPosition: Int = holder.adapterPosition
-        filteredQuestions.removeAt(actualPosition)
-        notifyItemRemoved(actualPosition)
-        notifyItemRangeChanged(actualPosition, questions.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Card {

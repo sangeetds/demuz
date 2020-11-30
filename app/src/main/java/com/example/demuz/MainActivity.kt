@@ -10,19 +10,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import com.example.demuz.Filters.*
-import com.google.android.material.tabs.TabLayout
 
 
 class MainActivity : AppCompatActivity() {
 
     private var toolbar: Toolbar? = null
-    private var tabLayout: TabLayout? = null
-    private var viewPager: ViewPager? = null
     lateinit var questionAdapter: QuestionAdapter
-    private var searchView: SearchView? = null
-    private lateinit var questionDao: QuestionDao
+    private lateinit var questionRepository: QuestionRepository
 
     init {
         instance = this
@@ -30,18 +25,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.demuz.R.layout.activity_main)
-        questionDao = QuestionDataBase.getDatabase(this)!!.questionDao()
+        setContentView(R.layout.activity_main)
+        questionRepository = QuestionRepository(QuestionDataBase.getDatabase(this)!!.questionDao())
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Title"
 
-        toolbar = findViewById(com.example.demuz.R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val filterButton = findViewById<Button>(com.example.demuz.R.id.filterButton)
+        val filterButton = findViewById<Button>(R.id.filterButton)
         filterButton.setOnClickListener {
             showBottomSheetFilterFragment()
         }
@@ -55,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         questionView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun getListOfNames() = QuestionRepository(questionDao).allQuestions
+    private fun getListOfNames() = questionRepository.allQuestions
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
@@ -91,16 +86,16 @@ class MainActivity : AppCompatActivity() {
         bottomSheetFragment.onSubmit = { list, name ->
             println("$list $name")
             val newQuestionList: List<Question> = when (name) {
-                COLLEGE -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterCollege(item)); acc }.toMutableList()
-                COMPANY -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterCompanies(item)); acc }.toMutableList()
-                TOPICS -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterTopics(item)); acc }.toMutableList()
-                ROLE -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterRole(item)); acc }.toMutableList()
-                DIFFICULTY -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionDao.filterDifficulty(item)); acc }.toMutableList()
-                FAVORITE -> questionDao.getFavoriteQuestions(true).toMutableList()
-                COMPLETED -> if (list.size == 1 && list.first() == "Completed") questionDao.getCompletedQuestions(true)
-                        else if (list.size == 1 && list.first() == "Not Started") questionDao.getCompletedQuestions(false)
-                        else questionDao.getCompletedQuestions(true) + questionDao.getCompletedQuestions(false)
-                else -> questionDao.getAllQuestions()
+                COLLEGE -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterCollege(item)); acc }.toMutableList()
+                COMPANY -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterCompany(item)); acc }.toMutableList()
+                TOPICS -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterTopics(item)); acc }.toMutableList()
+                ROLE -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterRole(item)); acc }.toMutableList()
+                DIFFICULTY -> list.fold(mutableSetOf<Question>()) { acc, item -> acc.addAll(questionRepository.filterDifficulty(item)); acc }.toMutableList()
+                FAVORITE -> questionRepository.favoriteQuestions.toMutableList()
+                COMPLETED -> if (list.size == 1 && list.first() == "Completed") questionRepository.completedQuestions
+                        else if (list.size == 1 && list.first() == "Not Started") questionRepository.uncompletedQuestions
+                        else questionRepository.uncompletedQuestions + questionRepository.completedQuestions
+                else -> questionRepository.allQuestions
             }
 
             println(newQuestionList)

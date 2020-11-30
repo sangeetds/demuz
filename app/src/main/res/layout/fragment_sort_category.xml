@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:text="Sample Text"
+        android:text="@string/sample_text"
         android:checkable="true"
         android:focusable="true" />
 </LinearLayout>

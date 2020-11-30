@@ -8,6 +8,7 @@
     android:background="#FF424242">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
@@ -27,7 +28,7 @@
                 android:id="@+id/codingImage"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:contentDescription="Question Image"
+                android:contentDescription="@string/question_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,16 +39,17 @@
                 android:id="@+id/question"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:paddingTop="15dp"
-                android:text="Question"
+                android:text="@string/question"
                 android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/codingImage" />
 
             <ScrollView
-                android:id="@+id/scrollView3"
+                android:id="@+id/contentView"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -87,12 +89,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="#FFF"
-                android:text="Share with your friends"
+                android:text="@string/share_with_your_friends"
                 android:textColor="#000"
                 android:textSize="13sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+                app:layout_constraintTop_toBottomOf="@+id/contentView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -47,7 +47,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/codingImage" />
 
             <ScrollView
-                android:id="@+id/scrollView3"
+                android:id="@+id/contentView"
                 android:layout_width="389dp"
                 android:layout_height="300dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -95,7 +95,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/scrollView3" />
+                app:layout_constraintTop_toBottomOf="@+id/contentView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

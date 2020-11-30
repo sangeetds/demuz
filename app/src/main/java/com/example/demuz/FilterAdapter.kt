@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.demuz.Filters.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FilterAdapter(
@@ -23,7 +25,7 @@ class FilterAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val filter = values[position]
-        holder.idView.text = filter.toString()
+        holder.idView.text = filter.toString().toLowerCase(Locale.ROOT).capitalize(Locale.ROOT)
 
         holder.itemView.setOnClickListener {
             val fragment: BottomSheetDialogFragment =

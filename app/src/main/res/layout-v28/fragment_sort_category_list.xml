@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="Choose filters"
+        android:text="@string/choose_filters"
         android:textFontWeight="700"
         android:textAppearance="?attr/textAppearanceListItem" />
 
@@ -35,5 +35,5 @@
         android:gravity="center"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:text="Filter" />
+        android:text="@string/Do_filter" />
 </LinearLayout>
