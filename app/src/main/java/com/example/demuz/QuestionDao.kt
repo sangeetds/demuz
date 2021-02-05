@@ -6,32 +6,32 @@ import androidx.room.*
 interface QuestionDao {
 
     @Query("SELECT * FROM question_list")
-    fun getAllQuestions(): List<Question>
+    fun getAllQuestions(): List<Song>
 
     @Query("SELECT * FROM question_list WHERE completed == :completed")
-    fun getCompletedQuestions(completed: Boolean): List<Question>
+    fun getCompletedQuestions(completed: Boolean): List<Song>
 
     @Query("SELECT * FROM question_list WHERE favorite == :favorite")
-    fun getFavoriteQuestions(favorite: Boolean): List<Question>
+    fun getFavoriteQuestions(favorite: Boolean): List<Song>
 
     @Query("SELECT * FROM question_list WHERE college LIKE '%' || :colleges || '%'")
-    fun filterCollege(colleges: String): List<Question>
+    fun filterCollege(colleges: String): List<Song>
 
     @Query("SELECT * FROM question_list WHERE college LIKE '%' || :companies || '%'")
-    fun filterCompanies(companies: String): List<Question>
+    fun filterCompanies(companies: String): List<Song>
 
     @Query("SELECT * FROM question_list WHERE role LIKE '%' || :role || '%'")
-    fun filterRole(role: String): List<Question>
+    fun filterRole(role: String): List<Song>
 
     @Query("SELECT * FROM question_list WHERE topics LIKE '%' || :topics || '%'")
-    fun filterTopics(topics: String): List<Question>
+    fun filterTopics(topics: String): List<Song>
 
     @Query("SELECT * FROM question_list WHERE difficulty LIKE '%' || :difficulty || '%'")
-    fun filterDifficulty(difficulty: String): List<Question>
+    fun filterDifficulty(difficulty: String): List<Song>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addQuestion(question: Question)
+    fun addQuestion(song: Song)
 
     @Delete
-    fun removeQuestion(question: Question)
+    fun removeQuestion(song: Song)
 }

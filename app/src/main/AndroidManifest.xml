@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
-        <activity android:name=".QuestionDetailActivity"></activity>
+        <activity android:name=".QuestionDetailActivity" />
         <activity android:name=".MainActivity">
             <meta-data
                 android:name="android.app.searchable"

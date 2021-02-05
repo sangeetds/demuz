@@ -5,10 +5,9 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.demuz.Filters.*
 
 @Entity(tableName = "question_list")
-data class Question (
+data class Song (
 
     @PrimaryKey (autoGenerate = true) val uid: Int,
     @ColumnInfo(name = "title") val title: String,
@@ -41,8 +40,7 @@ data class Question (
         parcel.readByte() != 0.toByte(),
         parcel.readString()!!,
         parcel.readDouble()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(uid)
@@ -65,15 +63,13 @@ data class Question (
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<Question> {
+    companion object CREATOR : Parcelable.Creator<Song> {
 
-        val filters = listOf(COLLEGE, COMPANY, TOPICS, ROLE, DIFFICULTY, COMPLETED, FAVORITE)
-
-        override fun createFromParcel(parcel: Parcel): Question {
-            return Question(parcel)
+        override fun createFromParcel(parcel: Parcel): Song {
+            return Song(parcel)
         }
 
-        override fun newArray(size: Int): Array<Question?> {
+        override fun newArray(size: Int): Array<Song?> {
             return arrayOfNulls(size)
         }
     }

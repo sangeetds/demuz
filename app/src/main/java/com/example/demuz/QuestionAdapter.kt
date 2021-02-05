@@ -14,10 +14,10 @@ import com.google.android.material.chip.ChipGroup
 
 class QuestionAdapter(
     private val context: Context?,
-    private val questions: MutableList<Question>,
+    private val songs: MutableList<Song>,
 ) : RecyclerView.Adapter<QuestionAdapter.Card>(), Filterable {
 
-    var filteredQuestions: MutableList<Question> = questions
+    var filteredSongs: MutableList<Song> = songs
 
     inner class Card(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val questionName: TextView = itemView.findViewById(R.id.questionTitle)
@@ -32,10 +32,10 @@ class QuestionAdapter(
         }
     }
 
-    override fun getItemCount() = this.filteredQuestions.size
+    override fun getItemCount() = this.filteredSongs.size
 
     override fun onBindViewHolder(holder: Card, position: Int) {
-        val questionItem = filteredQuestions[position]
+        val questionItem = filteredSongs[position]
         holder.questionName.text = questionItem.title
 
         val tags = mutableListOf<String>()
@@ -84,25 +84,25 @@ class QuestionAdapter(
             override fun performFiltering(constraint: CharSequence): FilterResults? {
                 val charString: String = constraint.toString()
 
-                filteredQuestions = if (charString.isEmpty()) questions
-                    else questions
+                filteredSongs = if (charString.isEmpty()) songs
+                    else songs
                             .filter { it.title.contains(constraint, true) }
                             .toMutableList()
 
                 val filterResults = FilterResults()
-                filterResults.values = filteredQuestions
+                filterResults.values = filteredSongs
 
                 return filterResults
             }
 
             override fun publishResults(charSequence: CharSequence?, filterResults: FilterResults) {
-                filteredQuestions = filterResults.values as MutableList<Question>
+                filteredSongs = filterResults.values as MutableList<Song>
                 notifyDataSetChanged()
             }
         }
     }
 
-    private fun Question.addTags(tags: MutableList<String>) {
+    private fun Song.addTags(tags: MutableList<String>) {
         tags.addAll(this.college.split(","))
         tags.addAll(this.companies.split(","))
         tags.addAll(this.topics.split(","))

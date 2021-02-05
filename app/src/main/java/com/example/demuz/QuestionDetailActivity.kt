@@ -13,19 +13,19 @@ class QuestionDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_question_detail)
 
-        val currentQuestion: Question = intent.getParcelableExtra("Properties")!!
+        val currentSong: Song = intent.getParcelableExtra("Properties")!!
 
         val title = findViewById<TextView>(R.id.question)
         val questionContent = findViewById<TextView>(R.id.questionContent)
         val codingButton = findViewById<Button>(R.id.startCoding)
         val shareButton = findViewById<Button>(R.id.shareQuestion)
 
-        title.text = currentQuestion.title
-        questionContent.text = currentQuestion.content
+        title.text = currentSong.title
+        questionContent.text = currentSong.content
 
         codingButton.setOnClickListener {
             val uri: Uri =
-                Uri.parse(currentQuestion.url) // missing 'http://' will cause crashed
+                Uri.parse(currentSong.url) // missing 'http://' will cause crashed
             val intent = Intent(Intent.ACTION_VIEW, uri)
             startActivity(intent)
         }
@@ -33,7 +33,7 @@ class QuestionDetailActivity : AppCompatActivity() {
         shareButton.setOnClickListener {
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, currentQuestion.url)
+                putExtra(Intent.EXTRA_TEXT, currentSong.url)
                 type = "text/plain"
             }
 
