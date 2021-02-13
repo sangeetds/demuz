@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() {
 
     private var toolbar: Toolbar? = null
     lateinit var questionAdapter: QuestionAdapter
-    private lateinit var questionRepository: QuestionRepository
 
     init {
         instance = this
@@ -43,13 +42,11 @@ class MainActivity : AppCompatActivity() {
         val questionView = findViewById<RecyclerView>(R.id.questionList)
         questionView.setHasFixedSize(true)
 
-        val questionList = getListOfNames()
+        val questionList = listOf(Song())
         questionAdapter = QuestionAdapter(this, questionList.toMutableList())
         questionView.adapter = questionAdapter
         questionView.layoutManager = LinearLayoutManager(this)
     }
-
-    private fun getListOfNames() = questionRepository.allSongs
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

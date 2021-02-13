@@ -8,21 +8,20 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "question_list")
 data class Song (
-
-    @PrimaryKey (autoGenerate = true) val uid: Int,
-    @ColumnInfo(name = "title") val title: String,
+    @PrimaryKey(autoGenerate = false) val uid: Int,
+    @ColumnInfo(name = "title") val title: String = "",
     @ColumnInfo(name = "completed") var completed: Boolean = false,
     @ColumnInfo(name = "favorite") var favorite: Boolean = false,
     @ColumnInfo(name = "content") val content: String = "",
     @ColumnInfo(name = "url") val url: String = "",
-    @ColumnInfo(name = "companies") val companies: String,
-    @ColumnInfo(name = "role") val role: String,
-    @ColumnInfo(name = "frequency") val frequency: Double,
-    @ColumnInfo(name = "topics") val topics: String,
-    @ColumnInfo(name = "college") val college: String,
-    @ColumnInfo(name = "trending") val trending: Boolean,
-    @ColumnInfo(name = "difficulty") val difficulty: String,
-    @ColumnInfo(name = "acceptance_rate") val acceptance_rate: Double,
+    @ColumnInfo(name = "companies") val companies: String = "",
+    @ColumnInfo(name = "role") val role: String = "",
+    @ColumnInfo(name = "frequency") val frequency: Double = 2.00,
+    @ColumnInfo(name = "topics") val topics: String = "1",
+    @ColumnInfo(name = "college") val college: String = "",
+    @ColumnInfo(name = "trending") val trending: Boolean = false,
+    @ColumnInfo(name = "difficulty") val difficulty: String = "",
+    @ColumnInfo(name = "acceptance_rate") val acceptance_rate: Double = 2.00,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -41,6 +40,8 @@ data class Song (
         parcel.readString()!!,
         parcel.readDouble()
     )
+
+    constructor(): this(1)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(uid)

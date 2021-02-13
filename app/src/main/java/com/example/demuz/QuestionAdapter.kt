@@ -85,9 +85,9 @@ class QuestionAdapter(
                 val charString: String = constraint.toString()
 
                 filteredSongs = if (charString.isEmpty()) songs
-                    else songs
-                            .filter { it.title.contains(constraint, true) }
-                            .toMutableList()
+                else songs
+                    .filter { it.title.contains(constraint, true) }
+                    .toMutableList()
 
                 val filterResults = FilterResults()
                 filterResults.values = filteredSongs
