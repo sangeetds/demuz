@@ -1,5 +1,5 @@
 # Demuz
-You can download and install this file to run on your android device: https://drive.google.com/file/d/1bXRZ_5i14SATkLSxaCvTXyEIHLP5wG0C/view?usp=sharing
+Simple example of a recycler view app. Made with Kotlin and stored data with the help of Google Room and SQLite. You can download and install this file to run on your android device: https://drive.google.com/file/d/1bXRZ_5i14SATkLSxaCvTXyEIHLP5wG0C/view?usp=sharing
 
 # Screenshots
 
